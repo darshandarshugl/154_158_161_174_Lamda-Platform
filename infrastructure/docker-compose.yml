@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  # MongoDB database
+  mongodb:
+    image: mongo:latest
+    container_name: lambda-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    networks:
+      - lambda-network
+
+  # Backend API
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: lambda-backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../backend:/app
+      - /app/node_modules
+      - /var/run/docker.sock:/var/run/docker.sock # Mount Docker socket
+    environment:
+      - NODE_ENV=development
+      - MONGODB_URI=mongodb://admin:password@mongodb:27017/lambda-platform?authSource=admin
+    depends_on:
+      - mongodb
+    networks:
+      - lambda-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  lambda-network:
+    driver: bridge
