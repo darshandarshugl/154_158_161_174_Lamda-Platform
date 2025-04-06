@@ -2,10 +2,10 @@ echo '# Serverless Function Execution Platform
 A Lambda-like serverless function execution platform.
 
 ## Team Members
-- SRN1
-- SRN2
-- SRN3
-- SRN4
+- PES2UG22CS154
+- PES2UG22CS158
+- PES2UG22CS161
+- PES2UG22CS174
 
 ## Features
 - Function execution via HTTP requests
